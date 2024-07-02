@@ -10,7 +10,7 @@ policeApp.get('/about', (req, res) => {
 
 policeApp.get('/statements',getStatements)
 
-policeApp.post('/addstatement', addstatement);
+policeApp.post('/statement', addstatement);
 
 policeApp.get('/idstatement/:id', getStatement)
 

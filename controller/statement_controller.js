@@ -12,13 +12,20 @@ export const addstatement = async (req, res) => {
     }
 }
 
-//Statement to retrieve all data
+//Statement to retrieve all data/ filtered statement
 export const getStatements = async (req, res, next) => {
     try {
-        //Get all statement from database
+        const status = req.query.caseStatus
+       if (status) {
+         //Get filtered statement from database
+         const allStatements = await StatementModel.find({caseStatus: status})
+         //Return all filtered statements
+        return res.send(allStatements)
+       } else {
         const allStatements = await StatementModel.find()
         //Return all recipes
-        res.json(allStatements)
+       return res.send(allStatements)
+       }
     } catch (error) {
         next(error);
     }
@@ -39,6 +46,17 @@ export const updateStatement = async (req, res, next) => {
     try {
         const status = req.body.caseStatus
         const upStatement = await StatementModel.findByIdAndUpdate(req.params.id, {caseStatus: status})
+        res.status(200).json(upStatement)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const filterStatement = async (req, res, next) => {
+    
+    try {
+        const date = req.body.date
+        const upStatement = await StatementModel.find(req.params.id, {caseStatus: date})
         res.status(200).json(upStatement)
     } catch (error) {
         next(error)
